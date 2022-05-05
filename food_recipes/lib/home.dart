@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Foode Receipe',
+          'Food Recipes',
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
