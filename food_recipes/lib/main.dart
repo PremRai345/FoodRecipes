@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes/screen/home.dart';
+import 'package:food_recipes/home.dart';
+
 import 'package:food_recipes/theme/theme.dart';
 
 void main() {
@@ -26,8 +27,5 @@ class FoodRecipe extends StatelessWidget {
       title: 'Food Recipe',
       home: const Home(),
     );
-
-    
   }
-  
 }
