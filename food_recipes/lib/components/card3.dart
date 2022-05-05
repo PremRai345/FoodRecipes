@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes/theme/theme.dart';
 
-
 import '../models/models.dart';
 
 class Card3 extends StatelessWidget {
@@ -14,18 +13,16 @@ class Card3 extends StatelessWidget {
 
   List<Widget> createTagChips() {
     final chips = <Widget>[];
-    recipe.tags.take(6).forEach(
-      (element) {
-        final chip = Chip(
-          label: Text(
-            element,
-            style: FoodRecipeTheme.darkTextTheme.bodyText1,
-          ),
-          backgroundColor: Colors.black.withOpacity(0.7),
-        );
-        chips.add(chip);
-      },
-    );
+    recipe.tags.take(6).forEach((element) {
+      final chip = Chip(
+        label: Text(
+          element,
+          style: FoodRecipeTheme.darkTextTheme.bodyText1,
+        ),
+        backgroundColor: Colors.black.withOpacity(0.7),
+      );
+      chips.add(chip);
+    });
 
     return chips;
   }
@@ -43,18 +40,14 @@ class Card3 extends StatelessWidget {
             image: AssetImage(recipe.backgroundImage),
             fit: BoxFit.cover,
           ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10.0),
-          ),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         ),
         child: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.6),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               ),
             ),
             Container(

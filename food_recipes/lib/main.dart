@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes/home.dart';
+import 'package:food_recipes/models/grocery_manager.dart';
+import 'package:food_recipes/models/tab_manager.dart';
 
 import 'package:food_recipes/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   //1
@@ -17,7 +20,7 @@ class FoodRecipe extends StatelessWidget {
   Widget build(BuildContext context) {
     // theme imported and set to dark mode
     // theme is the variable that holds the theme
-    final theme = FoodRecipeTheme.dark();
+    final theme = FoodRecipeTheme.light();
 
     // Appy home widget
 
@@ -25,7 +28,16 @@ class FoodRecipe extends StatelessWidget {
     return MaterialApp(
       theme: theme, // theme is added
       title: 'Food Recipe',
-      home: const Home(),
+      home: MultiProvider(
+        //This accepts a list of providers for Home’s descendant widgets to access
+        providers: [
+          // 2
+          ChangeNotifierProvider(create: (context) => TabManager()),
+          // TODO 10: Add GroceryManager Provider
+          ChangeNotifierProvider(create: (context) => GroceryManager()),
+        ],
+        child: const Home(),
+      ),
     );
   }
 }
