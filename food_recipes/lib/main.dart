@@ -1,42 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes/home.dart';
-import 'package:food_recipes/models/grocery_manager.dart';
-import 'package:food_recipes/models/tab_manager.dart';
-
+import 'package:food_recipes/navigation/app_router.dart';
 import 'package:food_recipes/theme/theme.dart';
 import 'package:provider/provider.dart';
 
+
+import 'models/models.dart';
+
+
 void main() {
-  //1
-  runApp(const FoodRecipe());
+  runApp(
+    const FoodRecipe(),
+  );
 }
 
-class FoodRecipe extends StatelessWidget {
-  //2
+class FoodRecipe extends StatefulWidget {
   const FoodRecipe({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  _FooderlichState createState() => _FooderlichState();
+}
+
+class _FooderlichState extends State<FoodRecipe> {
+  final _groceryManager = GroceryManager();
+  final _profileManager = ProfileManager();
+  final _appStateManager = AppStateManager();
+  late AppRouter _appRouter;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRouter = AppRouter(
+      appStateManager: _appStateManager,
+      groceryManager: _groceryManager,
+      profileManager: _profileManager,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // theme imported and set to dark mode
-    // theme is the variable that holds the theme
-    final theme = FoodRecipeTheme.light();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => _groceryManager),
+        ChangeNotifierProvider(
+          create: (context) => _appStateManager,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => _profileManager,
+        )
+      ],
+      child: Consumer<ProfileManager>(
+        builder: (context, profileManager, child) {
+          ThemeData theme;
+          if (profileManager.darkMode) {
+            theme = FoodRecipeTheme.dark();
+          } else {
+            theme = FoodRecipeTheme.light();
+          }
 
-    // Appy home widget
-
-    //3
-    return MaterialApp(
-      theme: theme, // theme is added
-      title: 'Food Recipe',
-      home: MultiProvider(
-        //This accepts a list of providers for Home’s descendant widgets to access
-        providers: [
-          // 2
-          ChangeNotifierProvider(create: (context) => TabManager()),
-          // TODO 10: Add GroceryManager Provider
-          ChangeNotifierProvider(create: (context) => GroceryManager()),
-        ],
-        child: const Home(),
+          return MaterialApp(
+            theme: theme,
+            title: 'Fooderlich',
+            home: Router(
+              routerDelegate: _appRouter,
+              backButtonDispatcher: RootBackButtonDispatcher(),
+            ),
+          );
+        },
       ),
     );
   }
